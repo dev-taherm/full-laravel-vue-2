@@ -160,7 +160,7 @@ import { Link } from "@inertiajs/vue3";
                             />
                         </svg>
 
-                        <span class="ms-3">Dashboard</span>
+                        <span class="ms-3">Home</span>
                     </Link>
                 </li>
                 <template v-if="$page.props.auth.user">
