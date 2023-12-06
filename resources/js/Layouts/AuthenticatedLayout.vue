@@ -31,7 +31,7 @@ import { Link } from "@inertiajs/vue3";
                             ></path>
                         </svg>
                     </button>
-                    <a href="https://flowbite.com" class="flex ms-2 md:me-24">
+                    <a href="/" class="flex ms-2 md:me-24">
                         <img
                             src="/logo.png"
                             class="h-8 me-3"
@@ -98,7 +98,7 @@ import { Link } from "@inertiajs/vue3";
                                 <ul class="py-1" role="none">
                                     <li>
                                         <a
-                                            href="#"
+                                            href="/"
                                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                             role="menuitem"
                                             >Dashboard</a
@@ -106,7 +106,7 @@ import { Link } from "@inertiajs/vue3";
                                     </li>
                                     <li>
                                         <Link
-                                            :href="route('profile.index')"
+                                            href="/profile"
                                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                             role="menuitem"
                                             >Profile</Link
