@@ -183,35 +183,6 @@ onMounted(() => {
         </li>
         <template v-if="$page.props.auth.user">
           <li>
-            <Link
-              :href="route('profile.index')"
-              :class="[
-                'flex items-center p-2 text-gray-900 rounded-lg dark:text-white group hover:bg-gray-100 dark:hover:bg-gray-700',
-                {
-                  'hover:bg-gray-100 dark:hover:bg-gray-700': !$page.url === '/profile',
-                  'bg-gray-100 dark:bg-gray-700': $page.url === '/profile',
-                },
-              ]"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-
-              <span class="flex-1 ms-3 whitespace-nowrap">Profile</span>
-            </Link>
-          </li>
-          <li>
             <button
               type="button"
               class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
