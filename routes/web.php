@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,4 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/customer/create', [CustomerController::class, 'create'])->name('customer.create');
+    Route::patch('/customer', [CustomerController::class, 'update'])->name('customer.update');
+    Route::post('/customer', [CustomerController::class, 'store'])->name('customer.store');
+});
 require __DIR__.'/auth.php';
