@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
-defineProps<{
-    seller: {
-        type: Object | null;
-        required: false;
-    };
-}>();
+const props = defineProps({
+    sellers: {
+        type: Array,
+        default: () => [],
+    },
+});
 </script>
 
 <template>
     <Head title="Dashboard" />
 
-    <AuthenticatedLayout :seller="seller">
+    <AuthenticatedLayout :sellers="sellers">
         <template #header>
             <h2
                 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"

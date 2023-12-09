@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\SellerController;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,14 +20,14 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function (Request $request) {
-       $user = $request->user();
-          $seller = $user ? $user->seller : null;
+          $user = $request->user();
+          $sellers = $user ? $user->sellers : null;
     return Inertia::render('Dashboard', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'seller' => $seller,
+        'sellers' => $sellers,
     ]);
 })->name('dashboard');
 
@@ -43,5 +44,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/customer/create', [CustomerController::class, 'create'])->name('customer.create');
     Route::patch('/customer', [CustomerController::class, 'update'])->name('customer.update');
     Route::post('/customer', [CustomerController::class, 'store'])->name('customer.store');
+});
+
+
+Route::middleware('auth')->group(function () {
+   Route::get('/seller/{sellerId}', [SellerController::class, 'show'])->name('seller.show');
+ 
 });
 require __DIR__.'/auth.php';
