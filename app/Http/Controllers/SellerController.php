@@ -17,12 +17,8 @@ class SellerController extends Controller
 {
    public function index(Request $request): Response
     {
-        $user = $request->user();
-        $sellers = $user ? $user->sellers : null;
-
-        return Inertia::render('Seller/Index', [
-            'sellers' => $sellers,
-        ]);
+       
+        return Inertia::render('Seller/Index');
     }
 
     public function show($sellerId)
@@ -33,36 +29,36 @@ class SellerController extends Controller
             'seller' => $seller,
         ]);
     }
-//  public function create(): Response
-//     {
+ public function create(): Response
+    {
         
 
-//         return Inertia::render('Seller/create');
-//     }
-//      public function store(Request $request): RedirectResponse
-//     {
-//          $user = $request->user();
-//          $sellers = $user->sellers;
+        return Inertia::render('Seller/Create');
+    }
+     public function store(Request $request): RedirectResponse
+    {
+         $user = $request->user();
+         $sellers = $user->sellers;
          
     
-//         $sellers = new Seller();
-//         $sellers->user_id = $user->id;
+        $sellers = new Seller();
+        $sellers->user_id = $user->id;
 
 
-//     $attribute = $request->validate([
-//         'o_username' => 'required',
-//         'o_name' => 'required',
-//         'o_address' => 'required',
-//         'o_city' => 'required',
-//         'o_phone' => 'required',
-//         'bio' => 'max:500',
-//     ]);
+    $attribute = $request->validate([
+        'o_username' => 'required',
+        'o_name' => 'required',
+        'o_address' => 'required',
+        'o_city' => 'required',
+        'o_phone' => 'required',
+        'o_bio' => 'max:500',
+    ]);
 
-//     $sellers->fill($attribute);
-//     $sellers->save();
+    $sellers->fill($attribute);
+    $sellers->save();
 
-//     return Redirect::route('seller.edit');
-//     }
+    return Redirect::route('seller.index');
+    }
 // public function edit(Request $request): Response
 //     {
 //        $user = $request->user();
