@@ -19,15 +19,15 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function (Request $request) {
-          $user = $request->user();
-          $sellers = $user ? $user->sellers : null;
+Route::get('/', function () {
+       
+ 
     return Inertia::render('Dashboard', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'sellers' => $sellers,
+       
     ]);
 })->name('dashboard');
 
@@ -48,7 +48,10 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
-   Route::get('/seller/{sellerId}', [SellerController::class, 'show'])->name('seller.show');
- 
+    Route::post('/business', [SellerController::class, 'store'])->name('seller.store');
+    Route::get('/businessees', [SellerController::class, 'index'])->name('seller.index');
+    Route::get('/business/{sellerId}', [SellerController::class, 'show'])->name('seller.show');
+    Route::get('/seller/create', [SellerController::class, 'create'])->name('seller.create');
+    
 });
 require __DIR__.'/auth.php';
