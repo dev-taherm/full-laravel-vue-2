@@ -1,18 +1,12 @@
 <script setup lang="ts">
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
 import { onMounted, defineProps, computed } from "vue";
 import { initFlowbite } from "flowbite";
 
 onMounted(() => {
     initFlowbite();
 });
-
-const props = defineProps({
-    sellers: {
-        type: Array,
-        default: () => [],
-    },
-});
+const { sellers } = usePage().props;
 </script>
 
 <template>
@@ -262,7 +256,7 @@ const props = defineProps({
                             </li>
                         </ul>
                     </li>
-                    <template v-if="props.sellers.length < 1">
+                    <template v-if="!$page.props.sellers">
                         <li>
                             <Link
                                 href="/"
@@ -342,17 +336,12 @@ const props = defineProps({
                                 id="dropdown-seller"
                                 class="hidden py-2 space-y-2"
                             >
-                                <li v-for="seller in sellers" :key="seller.id">
+                                <li>
                                     <Link
-                                        :href="
-                                            route('seller.show', {
-                                                sellerId: seller.id,
-                                            })
-                                        "
+                                        :href="route('seller.index')"
                                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                        >Your businesses</Link
                                     >
-                                        {{ seller.o_name }}
-                                    </Link>
                                 </li>
                             </ul>
                         </li></template
@@ -417,7 +406,7 @@ const props = defineProps({
         </div>
     </aside>
 
-    <div class="p-2 sm:ml-64 mt-20">
+    <div class="sm:ml-64 mt-2">
         <div class="p-2">
             <slot></slot>
         </div>
