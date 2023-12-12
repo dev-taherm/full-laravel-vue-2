@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\SellerController;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -54,6 +55,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/seller/create', [SellerController::class, 'create'])->name('seller.create');
     Route::get('/business/{sellerId}/edit', [SellerController::class, 'edit'])->name('seller.edit');
     Route::patch('/business/{sellerId}/', [SellerController::class, 'update'])->name('seller.update');
+    
+});
+
+Route::middleware('auth')->group(function () {
+   Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
+   Route::post('/post', [PostController::class, 'store'])->name('post.store');
     
 });
 require __DIR__.'/auth.php';
