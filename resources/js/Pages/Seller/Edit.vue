@@ -5,7 +5,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Link, useForm, usePage, router } from "@inertiajs/vue3";
-import { onBeforeMount, onMounted } from "vue";
+import { onMounted } from "vue";
 import { initFlowbite } from "flowbite";
 import AuthenticatedLayoutVue from "@/Layouts/AuthenticatedLayout.vue";
 
