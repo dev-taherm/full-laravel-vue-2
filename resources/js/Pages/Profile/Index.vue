@@ -162,14 +162,10 @@
                 role="tabpanel"
                 aria-labelledby="profile-tab"
             >
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                    This is some placeholder content the
-                    <strong class="font-medium text-gray-800 dark:text-white"
-                        >Profile tab's associated content</strong
-                    >. Clicking another tab will toggle the visibility of this
-                    one for the next. The tab JavaScript swaps classes to
-                    control the content visibility and styling.
-                </p>
+                <Post :posts="$props.posts"></Post>
+            </div>
+            <div ref="scrollable" style="height: 500px; overflow-y: scroll">
+                <!-- Loading indicator or bottom content -->
             </div>
             <div
                 class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
@@ -221,72 +217,57 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { Tabs } from "flowbite";
+import { defineProps, ref, onMounted, onUnmounted } from "vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import type { TabsOptions, TabsInterface, TabItem } from "flowbite";
-import type { InstanceOptions } from "flowbite";
+import Post from "@/Components/Post.vue";
+import { useInfiniteScroll } from "@vueuse/core";
+
+const props = defineProps<{
+    posts: object;
+}>();
+
+const scrollable = ref<HTMLElement | null>(null);
+const paginatedPosts = ref<any[]>([]);
+const currentPage = ref(1);
+const isLoading = ref(false);
+
+const fetchMorePosts = async () => {
+    if (isLoading.value) return;
+
+    const scrollElement = scrollable.value;
+    if (!scrollElement) return; // Null check
+
+    const scrollPosition = scrollElement.scrollTop;
+    const scrollHeight = scrollElement.scrollHeight;
+    const clientHeight = scrollElement.clientHeight;
+
+    if (scrollPosition + clientHeight >= scrollHeight) {
+        isLoading.value = true;
+        currentPage.value++;
+
+        const response = await route(`/profile?page=${currentPage.value}`);
+        const responseData = JSON.parse(response) as { data: any[] };
+
+        const newPosts = responseData.data;
+
+        paginatedPosts.value.push(...newPosts);
+        isLoading.value = false;
+    }
+};
 
 onMounted(() => {
-    const tabsElement: HTMLElement | null =
-        document.getElementById("tabs-example");
+    const scrollElement = scrollable.value;
+    if (scrollElement) {
+        scrollElement.addEventListener("scroll", fetchMorePosts);
+    }
 
-    if (tabsElement) {
-        // create an array of objects with the id, trigger element (eg. button), and the content element
-        const tabElements: TabItem[] = [
-            {
-                id: "profile",
-                triggerEl: document.querySelector("#profile-tab-example"),
-                targetEl: document.querySelector("#profile-example"),
-            },
-            {
-                id: "dashboard",
-                triggerEl: document.querySelector("#dashboard-tab-example"),
-                targetEl: document.querySelector("#dashboard-example"),
-            },
-            {
-                id: "settings",
-                triggerEl: document.querySelector("#settings-tab-example"),
-                targetEl: document.querySelector("#settings-example"),
-            },
-            {
-                id: "contacts",
-                triggerEl: document.querySelector("#contacts-tab-example"),
-                targetEl: document.querySelector("#contacts-example"),
-            },
-        ];
+    fetchMorePosts(); // Fetch initial posts
+});
 
-        // options with default values
-        const options: TabsOptions = {
-            defaultTabId: "settings",
-            activeClasses:
-                "text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-400 border-blue-600 dark:border-blue-500",
-            inactiveClasses:
-                "text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300",
-            onShow: () => {
-                console.log("tab is shown");
-            },
-        };
-
-        // instance options with default values
-        const instanceOptions: InstanceOptions = {
-            id: "tabs-example",
-            override: true,
-        };
-
-        /*
-         * tabElements: array of tab objects
-         * options: optional
-         */
-        const tabs: TabsInterface = new Tabs(
-            tabsElement,
-            tabElements,
-            options,
-            instanceOptions
-        );
-
-        // open tab item based on id
-        tabs.show("contacts");
+onUnmounted(() => {
+    const scrollElement = scrollable.value;
+    if (scrollElement) {
+        scrollElement.removeEventListener("scroll", fetchMorePosts);
     }
 });
 </script>

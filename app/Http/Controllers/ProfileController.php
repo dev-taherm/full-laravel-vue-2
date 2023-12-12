@@ -16,10 +16,22 @@ class ProfileController extends Controller
     /**
      * Display the user's profile .
      */
-      public function index(Request $request): Response
-    {
-        return Inertia::render('Profile/Index');
+  public function index(Request $request)
+{
+    $user = $request->user();
+    $customer = $user->customer;
+    $perPage = 9;
+    $posts = $customer->posts()->paginate($perPage); // Adjust the pagination size as per your requirements
+
+    if ($request->expectsJson()) {
+        return $posts;
     }
+
+    return Inertia::render('Profile/Index', [
+        'customer' => $customer,
+        'posts' => $posts,
+    ]);
+}
      /**
      * Display the user's profile form.
      */
