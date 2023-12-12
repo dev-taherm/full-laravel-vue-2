@@ -16,13 +16,19 @@ class Customer extends Model
     return $this->belongsTo(User::class);
 }
 
- public function request()
+ public function requests()
 {
     return $this->hasMany(Request::class);
 }
 
-         public function order()
+         public function orders()
 {
     return $this->hasMany(Order::class);
 }
+
+public function posts()
+{
+    return $this->morphMany(Post::class, 'postable');
+}
+
 }

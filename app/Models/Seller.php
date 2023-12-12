@@ -31,5 +31,9 @@ class Seller extends Model
 {
     return $this->hasMany(Offer::class);
 }
+       public function posts()
+{
+    return $this->morphMany(Post::class, "postable");
+}
 
 }

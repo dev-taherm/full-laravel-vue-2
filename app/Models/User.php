@@ -52,4 +52,9 @@ class User extends Authenticatable
 {
     return $this->hasMany(Seller::class);
 }
+
+public function posts()
+{
+return $this->hasMany(Post::class);
+}
 }
