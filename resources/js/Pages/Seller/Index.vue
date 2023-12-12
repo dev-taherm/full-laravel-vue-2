@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Link, usePage } from "@inertiajs/vue3";
-import { onMounted } from "vue";
-onMounted(() => {
-    console.log(sellers);
-});
+
 const { sellers } = usePage().props;
 </script>
 <template>
@@ -104,10 +101,14 @@ const { sellers } = usePage().props;
                                         {{ seller.o_phone }}
                                     </td>
                                     <td class="px-6 py-4 text-right">
-                                        <a
-                                            href="#"
+                                        <Link
+                                            :href="
+                                                route('seller.edit', {
+                                                    sellerId: seller.id,
+                                                })
+                                            "
                                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                            >Edit</a
+                                            >Edit</Link
                                         >
                                     </td>
                                 </tr>

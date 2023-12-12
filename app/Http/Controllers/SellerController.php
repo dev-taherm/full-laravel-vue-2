@@ -59,39 +59,38 @@ class SellerController extends Controller
 
     return Redirect::route('seller.index');
     }
-// public function edit(Request $request): Response
-//     {
-//        $user = $request->user();
-//        $seller = $user->seller;
+ public function edit($sellerId)
+    {
+        $seller = Seller::findOrFail($sellerId);
 
-//         return Inertia::render('seller/Edit', [
-           
-//             'seller' => $seller,
-//         ]);
-//     }
+        return Inertia::render('Seller/Edit', [
+            'seller' => $seller,
+        ]);
+    }
 
-//     /**
-//      * Update the user's profile information.
-//      */
-//     public function update(Request $request): RedirectResponse
-//     {
-//          $user = $request->user();
-//          $customer = $user->customer;
-//         $attribute= $request->validate([
-//             'name' => 'required',
-//             'address' => 'required',
-//             'city' => 'required',
-//             'phone' => 'required',
-//             'bio' => 'max:500'
+    /**
+     * Update the user's profile information.
+     */
+    public function update($sellerId, Request $request): RedirectResponse
+    {
+         
+        $seller = Seller::findOrFail($sellerId);
+        $attribute= $request->validate([
+            'o_username' => 'required',
+            'o_name' => 'required',
+            'o_address' => 'required',
+            'o_city' => 'required',
+            'o_phone' => 'required',
+            'O_bio' => 'max:500'
 
-//         ]);
+        ]);
 
-//         $customer->update($attribute);
+        $seller->update($attribute);
 
         
 
-//         return Redirect::route('profile.edit');
-//     }
+        return Redirect::route('seller.index');
+    }
 
 
 }

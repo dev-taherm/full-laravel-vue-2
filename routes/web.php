@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/businessees', [SellerController::class, 'index'])->name('seller.index');
     Route::get('/business/{sellerId}', [SellerController::class, 'show'])->name('seller.show');
     Route::get('/seller/create', [SellerController::class, 'create'])->name('seller.create');
+    Route::get('/business/{sellerId}/edit', [SellerController::class, 'edit'])->name('seller.edit');
+    Route::patch('/business/{sellerId}/', [SellerController::class, 'update'])->name('seller.update');
     
 });
 require __DIR__.'/auth.php';
