@@ -168,7 +168,7 @@
                         :title="post.title"
                         :description="post.description"
                         :created_at="post.created_at"
-                        v-for="post in allPosts"
+                        v-for="post in profilePosts.data"
                         :key="post.id"
                     ></Post>
 
@@ -224,58 +224,52 @@
         </div>
     </AuthenticatedLayout>
 </template>
-
 <script>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Post from "@/Components/Post.vue";
+import axios from "axios";
+import { debounce } from "lodash";
 
 export default {
+    data() {
+        return { profilePosts: this.posts };
+    },
     components: {
         AuthenticatedLayout,
         Post,
     },
 
-    props: ["posts"],
+    props: { posts: Object },
 
     mounted() {
-        const observer = new IntersectionObserver(
-            (entries) =>
-                entries.forEach(
-                    (entry) => entry.isIntersecting && this.loadMorePosts()
-                ),
-            {
-                rootMargin: "-150px 0px 0px 0px",
-            }
-        );
+        const self = this; // Assign 'this' to a variable
 
-        observer.observe(this.$refs.loadMoreIntersect);
-    },
+        window.addEventListener(
+            "scroll",
+            debounce(function (e) {
+                // Use regular function to preserve 'this' binding
+                let pixelsFromBotton =
+                    document.documentElement.offsetHeight -
+                    document.documentElement.scrollTop -
+                    window.innerHeight;
 
-    data() {
-        return {
-            allPosts: this.posts.data,
-        };
-    },
+                if (pixelsFromBotton < 200) {
+                    console.log(pixelsFromBotton);
 
-    methods: {
-        loadMorePosts() {
-            if (this.posts.next_page_url === null) {
-                return;
-            }
-
-            this.$inertia.get(
-                this.posts.next_page_url,
-                {},
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                    only: ["posts"],
-                    onSuccess: () => {
-                        this.allPosts = [...this.allPosts, ...this.posts.data];
-                    },
+                    axios
+                        .get(self.profilePosts.next_page_url)
+                        .then((response) => {
+                            self.profilePosts = {
+                                ...response.data,
+                                data: [
+                                    ...self.posts.data,
+                                    ...response.data.data,
+                                ],
+                            };
+                        });
                 }
-            );
-        },
+            }, 300)
+        );
     },
 };
 </script>

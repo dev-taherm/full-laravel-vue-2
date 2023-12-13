@@ -23,7 +23,7 @@ class ProfileController extends Controller
     $perPage = 9;
     $posts = $customer->posts()->paginate($perPage); // Adjust the pagination size as per your requirements
 
-    if ($request->expectsJson()) {
+    if ($request->wantsJson()) {
         return $posts;
     }
 

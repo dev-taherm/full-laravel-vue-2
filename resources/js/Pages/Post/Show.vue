@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Post from "@/Components/Post.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { Link } from "@inertiajs/vue3";
 
 const props = defineProps<{
     post: object;
