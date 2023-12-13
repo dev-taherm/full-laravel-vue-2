@@ -52,4 +52,31 @@ class PostController extends Controller
 
     return Redirect::route('profile.index');
     }
+    public function edit($postId)
+    {
+
+        
+        $post = Post::findOrFail($postId);
+
+
+
+        return Inertia::render('Post/Edit', [
+            'post' => $post,
+        ]);
+    }
+     public function update($postId, Request $request): RedirectResponse
+    {
+         
+        $post = Post::findOrFail($postId);
+        $attribute= $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
+        $post->update($attribute);
+
+        
+
+        return Redirect::route('post.show',['postId' => $postId]);
+    }
 }

@@ -27,6 +27,8 @@ class ProfileController extends Controller
         return $posts;
     }
 
+   
+
     return Inertia::render('Profile/Index', [
         'customer' => $customer,
         'posts' => $posts,
