@@ -162,11 +162,18 @@
                 role="tabpanel"
                 aria-labelledby="profile-tab"
             >
-                <Post :posts="$props.posts"></Post>
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <Post
+                        :title="post.title"
+                        :description="post.description"
+                        :created_at="post.created_at"
+                        v-for="post in allPosts"
+                        :key="post.id"
+                    ></Post>
+                    <span ref="loadMoreIntersect" />
+                </div>
             </div>
-            <div ref="scrollable" style="height: 500px; overflow-y: scroll">
-                <!-- Loading indicator or bottom content -->
-            </div>
+
             <div
                 class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
                 id="dashboard"
@@ -216,58 +223,57 @@
     </AuthenticatedLayout>
 </template>
 
-<script setup lang="ts">
-import { defineProps, ref, onMounted, onUnmounted } from "vue";
+<script>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Post from "@/Components/Post.vue";
-import { useInfiniteScroll } from "@vueuse/core";
 
-const props = defineProps<{
-    posts: object;
-}>();
+export default {
+    components: {
+        AuthenticatedLayout,
+        Post,
+    },
 
-const scrollable = ref<HTMLElement | null>(null);
-const paginatedPosts = ref<any[]>([]);
-const currentPage = ref(1);
-const isLoading = ref(false);
+    props: ["posts"],
 
-const fetchMorePosts = async () => {
-    if (isLoading.value) return;
+    mounted() {
+        const observer = new IntersectionObserver(
+            (entries) =>
+                entries.forEach(
+                    (entry) => entry.isIntersecting && this.loadMorePosts()
+                ),
+            {
+                rootMargin: "-150px 0px 0px 0px",
+            }
+        );
 
-    const scrollElement = scrollable.value;
-    if (!scrollElement) return; // Null check
+        observer.observe(this.$refs.loadMoreIntersect);
+    },
 
-    const scrollPosition = scrollElement.scrollTop;
-    const scrollHeight = scrollElement.scrollHeight;
-    const clientHeight = scrollElement.clientHeight;
+    data() {
+        return {
+            allPosts: this.posts.data,
+        };
+    },
 
-    if (scrollPosition + clientHeight >= scrollHeight) {
-        isLoading.value = true;
-        currentPage.value++;
+    methods: {
+        loadMorePosts() {
+            if (this.posts.next_page_url === null) {
+                return;
+            }
 
-        const response = await route(`/profile?page=${currentPage.value}`);
-        const responseData = JSON.parse(response) as { data: any[] };
-
-        const newPosts = responseData.data;
-
-        paginatedPosts.value.push(...newPosts);
-        isLoading.value = false;
-    }
+            this.$inertia.get(
+                this.posts.next_page_url,
+                {},
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    only: ["posts"],
+                    onSuccess: () => {
+                        this.allPosts = [...this.allPosts, ...this.posts.data];
+                    },
+                }
+            );
+        },
+    },
 };
-
-onMounted(() => {
-    const scrollElement = scrollable.value;
-    if (scrollElement) {
-        scrollElement.addEventListener("scroll", fetchMorePosts);
-    }
-
-    fetchMorePosts(); // Fetch initial posts
-});
-
-onUnmounted(() => {
-    const scrollElement = scrollable.value;
-    if (scrollElement) {
-        scrollElement.removeEventListener("scroll", fetchMorePosts);
-    }
-});
 </script>
