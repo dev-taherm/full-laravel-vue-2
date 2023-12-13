@@ -15,7 +15,16 @@ use Inertia\Response;
 
 class PostController extends Controller
 {
+  public function show($postId)
+    {
+        $post = Post::findOrFail($postId);
+        $postable =$post->postable;
 
+        return Inertia::render('Post/Show', [
+            'post' => $post,
+            'postable'=> $postable,
+        ]);
+    }
     public function create() : Response
     {
          return Inertia::render('Post/Create');

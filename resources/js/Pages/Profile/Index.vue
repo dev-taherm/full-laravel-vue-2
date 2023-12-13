@@ -164,12 +164,14 @@
             >
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <Post
+                        :id="post.id"
                         :title="post.title"
                         :description="post.description"
                         :created_at="post.created_at"
                         v-for="post in allPosts"
                         :key="post.id"
                     ></Post>
+
                     <span ref="loadMoreIntersect" />
                 </div>
             </div>
