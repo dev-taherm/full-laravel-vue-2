@@ -29,11 +29,10 @@ const getTimeAgo = (created_at: string) => {
 };
 </script>
 <template>
-    <div class="mt-0">
-        <Link
-            :href="route('post.show', { postId: id })"
-            class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-        >
+    <div
+        class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+    >
+        <Link :href="route('post.show', { postId: id })">
             <a href="#">
                 <img
                     class="rounded-t-lg post-image h-auto max-w-full mx-auto"

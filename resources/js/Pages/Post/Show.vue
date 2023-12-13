@@ -10,10 +10,14 @@ const props = defineProps<{
 <template>
     <AuthenticatedLayout>
         <div class="mx-[200px] mb-[200px]">
-            <div class="mt-20 max-w-full">
-                <div class="flex items-center space-x-4 rtl:space-x-reverse">
+            <div
+                class="mt-20 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+            >
+                <div
+                    class="mt-4 flex items-center space-x-4 rtl:space-x-reverse"
+                >
                     <div
-                        class="mb-5 relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600"
+                        class="mb-5 ml-4 relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600"
                     >
                         <span
                             class="font-medium text-gray-600 dark:text-gray-300"
