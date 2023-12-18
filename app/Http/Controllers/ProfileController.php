@@ -16,37 +16,37 @@ class ProfileController extends Controller
     /**
      * Display the user's profile .
      */
-  public function index(Request $request)
-{
-    $user = $request->user();
-    $customer = $user->customer;
-    $perPage = 9;
-    $posts = $customer->posts()->paginate($perPage); // Adjust the pagination size as per your requirements
+    public function index(Request $request)
+    {
+        $user = $request->user();
+        $customer = $user->customer;
+        $perPage = 9;
+        $posts = $customer->posts()->paginate($perPage); // Adjust the pagination size as per your requirements
 
-    if ($request->wantsJson()) {
-        return $posts;
+        if ($request->wantsJson()) {
+            return $posts;
+        }
+
+
+
+        return Inertia::render('Profile/Index', [
+            'customer' => $customer,
+            'posts' => $posts,
+        ]);
     }
-
-   
-
-    return Inertia::render('Profile/Index', [
-        'customer' => $customer,
-        'posts' => $posts,
-    ]);
-}
-     /**
+    /**
      * Display the user's profile form.
      */
     public function edit(Request $request): Response
     {
-         $user = $request->user();
-         $customer = $user->customer;
+        $user = $request->user();
+        $customer = $user->customer;
 
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
             'customer' => $customer
-            
+
         ]);
     }
 
