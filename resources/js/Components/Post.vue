@@ -91,14 +91,14 @@ const getTimeAgo = (created_at: string) => {
                                 </svg>
                             </button>
                         </div>
-                        <div>
-                            <i class="mr-4 dark:text-gray-100"></i>
-                            <span class="dark:text-gray-300">{{
-                                getTimeAgo($props.created_at)
-                            }}</span>
-                        </div>
                     </div>
                 </template>
+                <div>
+                    <i class="mr-4 dark:text-gray-100"></i>
+                    <span class="dark:text-gray-300">{{
+                        getTimeAgo($props.created_at)
+                    }}</span>
+                </div>
             </div>
         </Link>
     </div>
