@@ -11,7 +11,9 @@ const form = useForm({
 </script>
 <template>
     <AuthenticatedLayout>
-        <div class="mt-20 container mx-auto">
+        <div
+            class="max-w-lg mx-auto sm:px-6 space-y-6 bg-white dark:bg-gray-800 shadow sm:rounded-lg sm:p-8"
+        >
             <form
                 @submit.prevent="
                     form.patch(route('post.update', { postId: props.post.id }))

@@ -6,7 +6,7 @@ const { sellers } = usePage().props;
 </script>
 <template>
     <AuthenticatedLayout>
-        <section class="bg-gray-50 dark:bg-gray-900 h-screen flex items-center">
+        <section class="dark:bg-gray-900 h-screen">
             <div class="max-w-screen-xl px-4 mx-auto lg:px-12 w-full">
                 <!-- Start coding here -->
                 <div
