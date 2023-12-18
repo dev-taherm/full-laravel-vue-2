@@ -21,14 +21,14 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-       
- 
+
+
     return Inertia::render('Dashboard', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-       
+
     ]);
 })->name('dashboard');
 
@@ -39,6 +39,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // profile posts
+    Route::get('/profile/post/create', [PostController::class, 'create'])->name('post.create');
+    Route::get('/profile/post/{postId}', [PostController::class, 'show'])->name('post.show');
+    Route::get('/profile/post/{postId}/edit', [PostController::class, 'edit'])->name('post.edit');
+    Route::patch('/profile/post/{postId}/', [PostController::class, 'update'])->name('post.update');
+    Route::post('/profile/post', [PostController::class, 'store'])->name('post.store');
 });
 
 Route::middleware('auth')->group(function () {
@@ -55,15 +62,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/seller/create', [SellerController::class, 'create'])->name('seller.create');
     Route::get('/business/{sellerId}/edit', [SellerController::class, 'edit'])->name('seller.edit');
     Route::patch('/business/{sellerId}/', [SellerController::class, 'update'])->name('seller.update');
-    
 });
 
 Route::middleware('auth')->group(function () {
-   Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
-   Route::get('/post/{postId}', [PostController::class, 'show'])->name('post.show');
-   Route::get('/post/{postId}/edit', [PostController::class, 'edit'])->name('post.edit');
-   Route::patch('/post/{postId}/', [PostController::class, 'update'])->name('post.update');
-   Route::post('/post', [PostController::class, 'store'])->name('post.store');
-    
 });
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
