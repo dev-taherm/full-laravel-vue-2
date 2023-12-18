@@ -15,47 +15,50 @@ use Inertia\Response;
 
 class PostController extends Controller
 {
-  public function show($postId)
+    public function show($postId)
     {
         $post = Post::findOrFail($postId);
-        $postable =$post->postable;
+        $postable = $post->postable;
 
         return Inertia::render('Post/Show', [
             'post' => $post,
-            'postable'=> $postable,
+            'postable' => $postable,
         ]);
     }
-    public function create() : Response
+    public function create(): Response
     {
-         return Inertia::render('Post/Create');
+        return Inertia::render('Post/Create');
     }
     public function store(Request $request): RedirectResponse
     {
-         $user = $request->user();
-         $customer = $user->customer;
+        $user = $request->user();
+        $customer = $user->customer;
+
+        if ($customer !== null) {
+            $post = new Post();
+            $post->postable_type = 'customer';
+            $post->postable_id = $customer->id;
 
 
-         $post = new Post();
-         $post->postable_type = 'customer';
-         $post->postable_id = $customer->id;
-    
+            $attribute = $request->validate([
+                'title' => 'required',
+                'description' => 'required',
 
-    $attribute = $request->validate([
-        'title' => 'required',
-        'description' => 'required',
-        
-    ]);
-    
+            ]);
 
-    $post->fill($attribute);
-    $post->save();
 
-    return Redirect::route('profile.index');
+            $post->fill($attribute);
+            $post->save();
+
+            return Redirect::route('profile.index');
+        } else {
+            return redirect()->route('customer.create');
+        }
     }
     public function edit($postId)
     {
 
-        
+
         $post = Post::findOrFail($postId);
 
 
@@ -64,19 +67,19 @@ class PostController extends Controller
             'post' => $post,
         ]);
     }
-     public function update($postId, Request $request): RedirectResponse
+    public function update($postId, Request $request): RedirectResponse
     {
-         
+
         $post = Post::findOrFail($postId);
-        $attribute= $request->validate([
+        $attribute = $request->validate([
             'title' => 'required',
             'description' => 'required',
         ]);
 
         $post->update($attribute);
 
-        
 
-        return Redirect::route('post.show',['postId' => $postId]);
+
+        return Redirect::route('post.show', ['postId' => $postId]);
     }
 }
