@@ -53,7 +53,7 @@ const getTimeAgo = (created_at: string) => {
                 <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                     {{ $props.description }}
                 </p>
-                <div class="flex">
+                <div class="flex justify-between">
                     <template v-if="$page.url !== '/profile'">
                         <div class="flex items-center">
                             <div class="flex items-center mr-4">
@@ -94,7 +94,7 @@ const getTimeAgo = (created_at: string) => {
                             </div>
                         </div>
                     </template>
-                    <div class="ml-[140px]">
+                    <div>
                         <i class="dark:text-gray-100"></i>
                         <span class="dark:text-gray-300">{{
                             getTimeAgo($props.created_at)
