@@ -420,7 +420,7 @@ onMounted(() => {
         </div>
     </aside>
 
-    <div class="my-20 mx-20">
+    <div class="my-20 lg:mx-20">
         <div class="p-2">
             <slot></slot>
         </div>
