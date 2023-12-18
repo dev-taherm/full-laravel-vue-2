@@ -17,7 +17,7 @@ onMounted(() => {
 <template>
     <AuthenticatedLayout>
         <div
-            class="mt-20 relative flex flex-col w-full min-w-0 mb-6 break-words border bg-clip-border rounded-2xl border-stone-200 bg-light/30 draggable"
+            class="relative flex flex-col w-full min-w-0 mb-6 break-words border bg-clip-border rounded-2xl border-stone-200 bg-light/30 draggable"
         >
             <!-- card body -->
             <div class="px-9 pt-9 flex-auto min-h-[70px] pb-0 bg-transparent">
