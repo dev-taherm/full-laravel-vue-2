@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Seller extends Model
 {
     use HasFactory;
- protected $fillable = [
+    protected $fillable = [
         'o_username',
         'o_name',
         'o_address',
@@ -17,23 +17,22 @@ class Seller extends Model
         'o_phone',
         'o_bio'
     ];
-     public function user()
-{
-    return $this->belongsTo(User::class);
-}
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-         public function services()
-{
-    return $this->hasMany(Service::class);
-}
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
 
-         public function offer()
-{
-    return $this->hasMany(Offer::class);
-}
-       public function posts()
-{
-    return $this->morphMany(Post::class, "postable");
-}
-
+    public function offer()
+    {
+        return $this->hasMany(Offer::class);
+    }
+    public function posts()
+    {
+        return $this->morphMany(Post::class, "postable");
+    }
 }
